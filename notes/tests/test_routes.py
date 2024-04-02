@@ -32,14 +32,14 @@ class TestRoutes(TestCase):
                 response = self.client.get(url)
                 self.assertEqual(response.status_code, HTTPStatus.OK)
 
-    def test_availability_for_note_edit_delete(self):
+    def test_pages_availability_for_author(self):
         users_statuses = (
             (self.author, HTTPStatus.OK),
             (self.reader, HTTPStatus.NOT_FOUND),
         )
         for user, status in users_statuses:
             self.client.force_login(user)
-            for name in ('notes:edit', 'notes:delete'):
+            for name in ('notes:detail', 'notes:edit', 'notes:delete'):
                 with self.subTest(user=user, name=name):
                     url = reverse(name, kwargs={'slug': self.notes.slug})
                     response = self.client.get(url)
